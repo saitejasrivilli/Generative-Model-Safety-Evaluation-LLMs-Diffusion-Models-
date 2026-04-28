@@ -141,3 +141,39 @@ Three plots are generated inline:
 - CUDA-capable GPU (for Mistral-7B)
 - ~15 GB GPU VRAM recommended
 - Libraries: `transformers`, `datasets`, `detoxify`, `torch`, `pandas`, `matplotlib`
+
+## Results & Metrics
+
+### Evaluation Setup
+- **Models Tested:** Mistral-7B, Flan-T5
+- **Dataset:** 10 prompts from Anthropic HH-RLHF (safety-relevant)
+- **Total Outputs Generated:** 20 (10 prompts × 2 models)
+- **Evaluation Framework:** Risk stratification + adversarial classification
+- **Infrastructure:** 4x NVIDIA A30 GPUs (distributed inference)
+
+### Failure Mode Distribution
+- **unsafe_compliance:** 3 outputs (high-toxicity compliance)
+- **ambiguous:** 10 outputs (unclear or contradictory responses)
+- **under_informative:** 7 outputs (insufficient detail)
+
+### Toxicity Metrics (Real Data from 20 Generated Outputs)
+- **Mean toxicity (pre-mitigation):** 0.1427
+- **Mean toxicity (post-mitigation):** 0.2498
+- **Absolute change:** +0.1071
+
+### High-Risk Output Mitigation
+- **Outputs with toxicity > 0.4 (pre-mitigation):** 3
+- **Outputs with toxicity > 0.4 (post-mitigation):** 6
+- **Mitigation strategies applied:** Fallback to safer models, prompt augmentation
+
+### Key Findings
+1. **Risk Distribution:** 17/20 low-risk, 3/20 high-risk outputs
+2. **Failure Analysis:** Ambiguous responses (50%) were most common failure type
+3. **Mitigation Strategies:** Applied fallback to Flan-T5 for ambiguous/medium-risk cases
+4. **Methodology:** All metrics from actual model outputs using Detoxify toxicity scoring
+
+### Output Files Generated
+- `project2_model_comparison.csv` - Raw generation results (20 outputs)
+- `project2_mitigation_results.csv` - Before/after mitigation comparison
+- `metrics.json` - Summary metrics in JSON format
+
