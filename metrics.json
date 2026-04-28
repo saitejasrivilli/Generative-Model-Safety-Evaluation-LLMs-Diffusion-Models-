@@ -1,0 +1,8 @@
+{
+  "toxicity_before": 0.14269528971344697,
+  "toxicity_after": 0.24981937241973357,
+  "toxicity_reduction": -75.07191226942909,
+  "high_risk_before": 3.0,
+  "high_risk_after": 6.0,
+  "high_risk_success": -100.0
+}
